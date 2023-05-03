@@ -1,0 +1,8 @@
+openapi: "3.0.3"
+info:
+  title: "eo_ktor_sample API"
+  description: "eo_ktor_sample API"
+  version: "1.0.0"
+servers:
+- url: "https://eo_ktor_sample"
+paths: {}
