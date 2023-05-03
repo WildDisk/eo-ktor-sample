@@ -24,6 +24,6 @@ fun Application.configureHTTP() {
         permanentRedirect = true
     }
     routing {
-        openAPI(path = "openapi")
+        openAPI(path = "openapi", swaggerFile = "src/main/resources/openapi/documentation.yaml")
     }
 }
