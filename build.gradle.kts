@@ -50,3 +50,10 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }
+
+ktor {
+    docker {
+        localImageName.set("eo-ktor-sample-docker-image")
+        imageTag.set("$version-preview")
+    }
+}
