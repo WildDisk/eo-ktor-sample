@@ -1,11 +1,12 @@
 package ru.wilddisk.plugins
 
 import io.ktor.http.*
+import io.ktor.server.application.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.httpsredirect.*
 import io.ktor.server.plugins.openapi.*
 import io.ktor.server.routing.*
-import io.ktor.server.application.*
+import io.swagger.codegen.v3.generators.html.StaticHtmlCodegen
 
 fun Application.configureHTTP() {
     install(CORS) {
@@ -24,6 +25,9 @@ fun Application.configureHTTP() {
         permanentRedirect = true
     }
     routing {
-        openAPI(path = "openapi", swaggerFile = "src/main/resources/openapi/documentation.yaml")
+//        openAPI(path = "openapi", swaggerFile = "src/main/resources/openapi/documentation.yaml")
+        openAPI(path = "openapi", swaggerFile = "openapi/documentation.yaml") {
+            codegen = StaticHtmlCodegen()
+        }
     }
 }
