@@ -55,5 +55,12 @@ ktor {
     docker {
         localImageName.set("eo-ktor-sample-docker-image")
         imageTag.set("$version-preview")
+        portMappings.set(listOf(
+            io.ktor.plugin.features.DockerPortMapping(
+                80,
+                8080,
+                io.ktor.plugin.features.DockerPortMappingProtocol.TCP
+            )
+        ))
     }
 }
