@@ -4,9 +4,8 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.httpsredirect.*
-import io.ktor.server.plugins.openapi.*
+import io.ktor.server.plugins.swagger.*
 import io.ktor.server.routing.*
-import io.swagger.codegen.v3.generators.html.StaticHtmlCodegen
 
 fun Application.configureHTTP() {
     install(CORS) {
@@ -17,6 +16,7 @@ fun Application.configureHTTP() {
         allowHeader(HttpHeaders.Authorization)
         allowHeader("MyCustomHeader")
         anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
+        allowHeader(HttpHeaders.ContentType)
     }
     install(HttpsRedirect) {
         // The port to redirect to. By default 443, the default HTTPS port.
@@ -25,9 +25,6 @@ fun Application.configureHTTP() {
         permanentRedirect = true
     }
     routing {
-//        openAPI(path = "openapi", swaggerFile = "src/main/resources/openapi/documentation.yaml")
-        openAPI(path = "openapi", swaggerFile = "openapi/documentation.yaml") {
-            codegen = StaticHtmlCodegen()
-        }
+        swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
     }
 }
