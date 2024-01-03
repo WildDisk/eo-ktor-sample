@@ -7,12 +7,16 @@ import io.ktor.resources.*
 import io.ktor.server.resources.Resources
 import kotlinx.serialization.Serializable
 import io.ktor.server.application.*
+import ru.wilddisk.view.apiUser
 
 fun Application.configureRouting() {
     install(Resources)
     routing {
         get("/") {
             call.respondText("Hello World!")
+        }
+        route("api") {
+            apiUser()
         }
         get<Articles> { article ->
             // Get all articles ...

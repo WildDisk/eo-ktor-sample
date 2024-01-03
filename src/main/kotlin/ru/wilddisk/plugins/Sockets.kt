@@ -52,7 +52,9 @@ object EchoApp {
         @JvmStatic
         fun main(args: Array<String>) {
             runBlocking {
-                val serverSocket = aSocket(selectorManager).tcp().bind(port = DefaultPort)
+                val serverSocket = aSocket(selectorManager)
+                    .tcp()
+                    .bind(port = DefaultPort)
                 println("Echo Server listening at ${serverSocket.localAddress}")
                 while (true) {
                     val socket = serverSocket.accept()
@@ -78,7 +80,9 @@ object EchoApp {
         @JvmStatic
         fun main(args: Array<String>) {
             runBlocking {
-                val socket = aSocket(selectorManager).tcp().connect("127.0.0.1", port = DefaultPort)
+                val socket = aSocket(selectorManager)
+                    .tcp()
+                    .connect("127.0.0.1", port = DefaultPort)
                 val read = socket.openReadChannel()
                 val write = socket.openWriteChannel(autoFlush = true)
 
@@ -111,14 +115,20 @@ object TlsRawSocket {
     fun main(args: Array<String>) {
         runBlocking {
             val selectorManager = ActorSelectorManager(Dispatchers.IO)
-            val socket = aSocket(selectorManager).tcp().connect("www.google.com", port = 443)
+            val socket = aSocket(selectorManager)
+                .tcp()
+                .connect("www.google.com", port = 443)
                 .tls(coroutineContext = coroutineContext)
             val write = socket.openWriteChannel()
             val EOL = "\r\n"
             write.writeStringUtf8("GET / HTTP/1.1${EOL}Host: www.google.com${EOL}Connection: close${EOL}${EOL}")
             write.flush()
-            println(socket.openReadChannel().readRemaining().readBytes().toString(Charsets.UTF_8))
+            println(
+                socket.openReadChannel()
+                    .readRemaining()
+                    .readBytes()
+                    .toString(Charsets.UTF_8)
+            )
         }
     }
 }
-

@@ -1,0 +1,34 @@
+version: '3'
+services:
+  eo-ktor:
+    build: ./
+    image: wilddisk/eo-ktor
+    ports:
+      - "8082:8082"
+      - "9443:9443"
+    expose:
+      - 8082
+    networks:
+      - ktor-network
+  eo-ktor-database:
+    image: postgres:latest
+    restart: always
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: eo-ktor-db
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5444:5432"
+    expose:
+      - 5444
+    networks:
+      - ktor-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 1s
+networks:
+  ktor-network:
+    driver: bridge

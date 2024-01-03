@@ -32,7 +32,7 @@ fun Application.configureSecurity() {
     }
     authentication {
         oauth("auth-oauth-google") {
-            urlProvider = { "http://localhost:8080/callback" }
+            urlProvider = { "https://localhost:9443/callback" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
                     name = "google",

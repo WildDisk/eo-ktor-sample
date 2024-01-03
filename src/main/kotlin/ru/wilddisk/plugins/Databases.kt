@@ -1,11 +1,16 @@
 package ru.wilddisk.plugins
 
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.*
 import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
+import org.flywaydb.core.Flyway
+import ru.wilddisk.data.db.HikariConfigDefault
+import ru.wilddisk.data.db.HikariProperties
 
 fun Application.configureDatabases() {
     val database = Database.connect(
@@ -14,6 +19,15 @@ fun Application.configureDatabases() {
         driver = "org.h2.Driver",
         password = ""
     )
+    Flyway.configure()
+        .dataSource(
+            HikariDataSource(
+                HikariConfig("/hikari.properties")
+            )
+//            HikariConfigDefault().configure()
+        )
+        .load()
+        .migrate()
     val userService = UserService(database)
     routing {
         // Create user
